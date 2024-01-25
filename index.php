@@ -125,7 +125,7 @@
                                 <br>
                                 <p>Don't have account? Click to Sign up</p>
                                 <button type="submit" id="submit" class="btn btn-primary btn-block mb-4"
-                                    onclick="window.location.href='http://localhost/Movie_Application/registerpage.php'">
+                                    onclick="window.location.href='http://localhost/Meals_Application/registerpage.php'">
                                     Sign up</button>
                             </div>
 
@@ -150,7 +150,7 @@
             success: function(data) {
                 document.getElementById('loadingGif').style.display = "none";
                 if (data == 1) {
-                    window.location.href = 'http://localhost/movie_application/model.php?name=' +
+                    window.location.href = 'http://localhost/meals_application/model.php?name=' +
                         user;
                 } else {
                     alert("incorrect user and pass");

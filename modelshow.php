@@ -35,8 +35,8 @@ $user=$_GET['name'];
 
 
     #main {
-        margin-top: 10%;
-        margin-left: 25%;
+        margin-top:10%;
+        margin-left:25%;
         padding-top: 15px;
         height: 1500px;
         position: absolute;
@@ -107,7 +107,6 @@ $user=$_GET['name'];
     .dropdown-menu show {
         position: relative;
     }
-
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
@@ -135,95 +134,26 @@ $user=$_GET['name'];
         <a href="session.php">Session</a>
         <a href="logout.php">Logout</a>
     </div>
-    <div class="container" id="main">
-        <h2>Add Recipes</h2>
-        <!-- Trigger the modal with a button -->
-        <button type="button" id='dialogid' class="btn btn-info btn-lg" data-toggle="modal"
-            data-target="#myModal">Add</button>
+    <div id="main">
+    <center><h3> Recipes Data </h3><center><br>
+    <table>
+        <!-- HTML Part (optional) -->
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
 
-        <br></br>
         <?php
-        include_once("config.php");
-        $sql = "SELECT * FROM `recipe`";
-        $result = mysqli_query($con, $sql);   
-        $totalPrice = 0; 
-        ?>
-        <center>
-            <h2>Recipe data</h2>
-        </center>
-        <?php
-    if (mysqli_num_rows($result)) {
-        $_SESSION['person']=array();?>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-            </tr>
-            <?php
-             while ($row = mysqli_fetch_assoc($result)) {
-     // Set session variables
-   
-     array_push($_SESSION['person'],$row['id'],$row['name'],$row['price']);
-    //  print_r($_SESSION['person']);
-
-                ?>
-            <tr>
-                <td><?php echo $row['id']; ?></td>
-                <td><?php echo $row['name']; ?></td>
-                <td><?php echo $row['price']; ?></td>
-            </tr>
-            <?php
-             $totalPrice+=$row['price'];
-
-         } 
-         
-
-         ?>
-        </table>
-        <?php } else {
-        echo "No data found";
-    }
-    ?>
-        <br><br>
-        <center>
-            <h4>Total Price : Rs <?php echo round($totalPrice,1);?>/-</h4>
-        </center>
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Recipes Add</h4>
-                        <br>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="recipe">Recipe name</label>
-                            <input type="text" id="rname" class="form-control" pattern="[A-Za-z]" required />
-                        </div>
-
-                        <!-- Password input -->
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="form3Example4">Price</label>
-                            <input type="number" id="rprice" class="form-control" required />
-                        </div>
-                        <br>
-                        <button type="submit" id="submit" class="btn btn-primary btn-block mb-4">Submit</button>
-                        <br>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button"id="close" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
+    for ($i = 0; $i < count($_SESSION['person']); $i+=3) {
+      echo'<tr>';
+            echo' <td>'. $_SESSION['person'][$i].'</td>';
+            echo' <td>'. $_SESSION['person'][$i+1].'</td>';
+            echo' <td>'. $_SESSION['person'][$i+2].'</td>';
+        echo '</tr>';
+         }?>
+    </table>
         </div>
-    </div>
     <div class="navbar">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
@@ -274,27 +204,24 @@ $user=$_GET['name'];
 <script>
 $(document).ready(function() {
     $("#submit").on("click", function() {
-        var name = $("#rname").val();
-        var price = $("#rprice").val();
-        $.ajax({
-            type: "GET",
-            url: "store.php?name=" + name + "&price=" + price,
-            success: function(data) {
-                if (data == 1) {
-                    window.location.href =
-                        'http://localhost/meals_application/modelshow.php?';
-                    alert("data are stored");
-                } else {
-                    alert("not stored");
-                }
+    var name = $("#rname").val();
+    var price = $("#rprice").val();
+    $.ajax({
+        type: "GET",
+        url: "store.php?name=" + name + "&price=" + price,
+        success: function(data) {
+            if (data == 1) {
+                window.location.href = 'http://localhost/meals_application/modelshow.php?';
+                alert("data are stored");
+            } else {
+                alert("not stored");
             }
-        })
-    });
-    $("#dialogid").on("click", function() {
-        $("#myModal").modal('show');
-    });
-    $("#close").on("click", function() {
-        $("#myModal").modal('hide');
-    });
+        }
+    })
+ });
+ $("#dialogid").on("click", function() {
+    $("#myModal").modal('show');
+ });
+ 
 });
 </script>

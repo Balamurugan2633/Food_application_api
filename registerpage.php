@@ -154,7 +154,7 @@ $("#submit").on("click", function() {
                     document.getElementById('loadingGif').style.display = "none";
                     //alert(data);
                     if (data == 1) {
-                        window.location.href = 'http://localhost/Movie_Application/index.php'
+                        window.location.href = 'http://localhost/Meals_Application/index.php'
                     } else {
                         alert("not stored");
                     }
