@@ -128,12 +128,16 @@ $user=$_GET['name'];
 
 <body>
 
-    <div class="sidenav">
-        <a href="model.php">Home</a>
-        <a href="add.php">Add </a>
-        <a href="session.php">Session</a>
-        <a href="logout.php">Logout</a>
+<div class="sidenav">
+        <!-- Sidebar links with escaped username -->
+        <a class="nav-link active" aria-current="page" href="model.php?name=<?php echo $user; ?>"
+            style="color:#ad1fff;">Home</a>
+        <a class="nav-link" aria-current="page" href="cart.php?name=<?php echo $user; ?>">Cart</a>
+        <a class="nav-link" aria-current="page" href="add.php?name=<?php echo $user; ?>">Add Recipe</a>
+        <a class="nav-link" aria-current="page" href="session.php?name=<?php echo $user; ?>">Session</a>
+        <a class="nav-link" aria-current="page" href="logout.php?name=<?php echo $user; ?>">Logout</a>
     </div>
+
     <div id="main">
     <center><h3> Recipes Data </h3><center><br>
     <table>

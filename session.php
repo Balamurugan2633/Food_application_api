@@ -1,7 +1,19 @@
 <?php 
+include("config.php");
 session_start();
 $user=$_GET['name'];
-
+?>
+<?php
+include_once("config.php");
+$test=array();  
+$count = 0; 
+$sql = "SELECT * FROM `recipe`";
+$result = mysqli_query($con, $sql); 
+while($row=mysqli_fetch_array($result)){
+    $test[$count]["label"]=$row["name"];
+    $test[$count]["y"]=$row["price"];
+    $count=$count+1;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,8 +48,8 @@ $user=$_GET['name'];
 
 
     #main {
-        margin-top:10%;
-        margin-left:25%;
+        margin-top: 10%;
+        margin-left: 25%;
         padding-top: 15px;
         height: 1500px;
         position: absolute;
@@ -108,6 +120,7 @@ $user=$_GET['name'];
     .dropdown-menu show {
         position: relative;
     }
+
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
@@ -130,22 +143,30 @@ $user=$_GET['name'];
 <body>
 
     <div class="sidenav">
-        <a href="model.php">Home</a>
-        <a href="add.php">Add </a>
-        <a href="session.php">Session</a>
-        <a href="logout.php">Logout</a>
+        <!-- Sidebar links with escaped username -->
+        <a class="nav-link " aria-current="page" href="model.php?name=<?php echo $user; ?>">Home</a>
+        <a class="nav-link" aria-current="page" href="cart.php?name=<?php echo $user; ?>">Cart</a>
+        <a class="nav-link" aria-current="page" href="add.php?name=<?php echo $user; ?>">Add Recipe</a>
+        <a class="nav-link active" aria-current="page" href="session.php?name=<?php echo $user; ?>"style="color:#ad1fff;">Session</a>
+        <a class="nav-link" aria-current="page" href="logout.php?name=<?php echo $user; ?>">Logout</a>
     </div>
-    <div id="main">
-    <center><h3> Recipes Data </h3><center><br>
-    <table>
-        <!-- HTML Part (optional) -->
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-        </tr>
 
-        <?php
+    <div id="main">
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+        <br></br>
+        <center>
+            <h3> Recipes Data For Table View</h3>
+            <center><br>
+                <table>
+                    <!-- HTML Part (optional) -->
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                    </tr>
+
+                    <?php
            
     for ($i = 0; $i < count($_SESSION['person']); $i+=3) {
       echo'<tr>';
@@ -155,17 +176,16 @@ $user=$_GET['name'];
         echo '</tr>';
        
           } ?>
-    </table>
- 
-        </div>
+                </table>
+
+    </div>
     <div class="navbar">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="model.php?name=<?php echo $user; ?>"
-                                style="color:#ad1fff;">Cistron Foods</a>
+                            <a class="nav-link active" aria-current="page"style="color:#ad1fff;">Cistron Foods</a>
                         </li>
                     </ul>
 
@@ -206,26 +226,48 @@ $user=$_GET['name'];
 </html>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+window.onload = function() {
+    var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        theme: "light2",
+        title: {
+            text: "Recipe Data for Graph View"
+        },
+        axisY: {
+            title: "Rupees for Cart Items"
+        },
+        data: [{
+            type: "column",
+            yValueFormatString: "#,##0.## Rupees",
+            dataPoints: <?php echo json_encode($test, JSON_NUMERIC_CHECK); ?>
+        }]
+    });
+    chart.render();
+
+}
+</script>
+<script>
 $(document).ready(function() {
     $("#submit").on("click", function() {
-    var name = $("#rname").val();
-    var price = $("#rprice").val();
-    $.ajax({
-        type: "GET",
-        url: "store.php?name=" + name + "&price=" + price,
-        success: function(data) {
-            if (data == 1) {
-                window.location.href = 'http://localhost/meals_application/modelshow.php?';
-                alert("data are stored");
-            } else {
-                alert("not stored");
+        var name = $("#rname").val();
+        var price = $("#rprice").val();
+        $.ajax({
+            type: "GET",
+            url: "store.php?name=" + name + "&price=" + price,
+            success: function(data) {
+                if (data == 1) {
+                    window.location.href =
+                        'http://localhost/meals_application/modelshow.php?';
+                    alert("data are stored");
+                } else {
+                    alert("not stored");
+                }
             }
-        }
-    })
- });
- $("#dialogid").on("click", function() {
-    $("#myModal").modal('show');
- });
- 
+        })
+    });
+    $("#dialogid").on("click", function() {
+        $("#myModal").modal('show');
+    });
+
 });
 </script>

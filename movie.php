@@ -151,11 +151,14 @@ $user=$_GET['name'];
 
 <body style='background-color:black'>
 
-    <div class="sidenav">
-        <a href="#">Home</a>
-        <a href="#">Recipes</a>
-        <a href="#">About us</a>
-        <a href="#">Logout</a>
+<div class="sidenav">
+        <!-- Sidebar links with escaped username -->
+        <a class="nav-link active" aria-current="page" href="model.php?name=<?php echo $user; ?>"
+            style="color:#ad1fff;">Home</a>
+        <a class="nav-link" aria-current="page" href="cart.php?name=<?php echo $user; ?>">Cart</a>
+        <a class="nav-link" aria-current="page" href="add.php?name=<?php echo $user; ?>">Add Recipe</a>
+        <a class="nav-link" aria-current="page" href="session.php?name=<?php echo $user; ?>">Session</a>
+        <a class="nav-link" aria-current="page" href="logout.php?name=<?php echo $user; ?>">Logout</a>
     </div>
 
     <div id="loadingGif" style="display:none;top:0px;right:0px;width:100%;height:100%;background-position:center;">

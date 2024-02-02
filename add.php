@@ -1,4 +1,5 @@
 <?php 
+include("config.php");
 session_start();
 $user=$_GET['name'];
 ?>
@@ -38,7 +39,6 @@ $user=$_GET['name'];
         margin-top: 10%;
         margin-left: 25%;
         padding-top: 15px;
-        height: 1500px;
         position: absolute;
         width: 70%;
     }
@@ -130,14 +130,16 @@ $user=$_GET['name'];
 <body>
 
     <div class="sidenav">
-        <a href="model.php">Home</a>
-        <a href="add.php">Add </a>
-        <a href="session.php">Session</a>
-        <a href="logout.php">Logout</a>
+        <!-- Sidebar links with escaped username -->
+        <a class="nav-link " aria-current="page" href="model.php?name=<?php echo $user; ?>">Home</a>
+        <a class="nav-link" aria-current="page" href="cart.php?name=<?php echo $user; ?>">Cart</a>
+        <a class="nav-link active" aria-current="page" href="add.php?name=<?php echo $user; ?>" style="color:#ad1fff;">Add Recipe</a>
+        <a class="nav-link" aria-current="page" href="session.php?name=<?php echo $user; ?>">Session</a>
+        <a class="nav-link" aria-current="page" href="logout.php?name=<?php echo $user; ?>">Logout</a>
     </div>
+
     <div class="container" id="main">
         <h2>Add Recipes</h2>
-        <!-- Trigger the modal with a button -->
         <button type="button" id='dialogid' class="btn btn-info btn-lg" data-toggle="modal"
             data-target="#myModal">Add</button>
 
@@ -162,10 +164,8 @@ $user=$_GET['name'];
             </tr>
             <?php
              while ($row = mysqli_fetch_assoc($result)) {
-     // Set session variables
    
      array_push($_SESSION['person'],$row['id'],$row['name'],$row['price']);
-    //  print_r($_SESSION['person']);
 
                 ?>
             <tr>
@@ -217,7 +217,7 @@ $user=$_GET['name'];
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button"id="close" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
 
@@ -230,8 +230,7 @@ $user=$_GET['name'];
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="model.php?name=<?php echo $user; ?>"
-                                style="color:#ad1fff;">Cistron Foods</a>
+                            <a class="nav-link active" aria-current="page"style="color:#ad1fff;">Cistron Foods</a>
                         </li>
                     </ul>
 

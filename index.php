@@ -142,16 +142,13 @@
         var user = $("#form3Example3").val();
         var pass = $("#form3Example4").val();
         document.getElementById('loadingGif').style.display = "block";
-        console.log(user);
-        console.log(pass);
         $.ajax({
             type: "GET",
             url: "login.php?user=" + user + "&pass=" + pass,
             success: function(data) {
                 document.getElementById('loadingGif').style.display = "none";
                 if (data == 1) {
-                    window.location.href = 'http://localhost/meals_application/model.php?name=' +
-                        user;
+                    window.location.href = 'http://localhost/meals_application/model.php?name=' + user;
                 } else {
                     alert("incorrect user and pass");
                 }
